@@ -1,0 +1,394 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+
+  <title>@Bunny Art</title>
+
+  
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Kalam&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.pen-stroke svg {
+    position: relative;
+    top: 1.2em;
+    left: 0;
+    width: 50%;
+    overflow: visible;
+    color: #ff2727;
+}
+
+html,
+body {
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: none;
+  scroll-behavior: smooth;
+}
+body {
+  position: relative;
+  color: #222;
+  font-family: "Kalam", sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image: url("https://images.unsplash.com/photo-1629968417841-d87296c4205b?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTMzMjQ1Nzh8&ixlib=rb-4.0.3&q=100&w=3000");
+  background-size: cover;
+}
+main {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+p {
+  line-height: 1;
+}
+a {
+  color: royalblue;
+  text-decoration: none;
+}
+#gallery {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+  max-width: 100vw;
+  padding: 20px;
+  perspective: 0;
+}
+#gallery figure:nth-child(7n) {
+  --duration: 1s;
+  --pin-color: #0ff;
+}
+#gallery figure:nth-child(7n + 1) {
+  --duration: 1.8s;
+  --pin-color: #dbdb2b;
+}
+#gallery figure:nth-child(7n + 2) {
+  --duration: 1.3s;
+  --pin-color: #00f077;
+}
+#gallery figure:nth-child(7n + 3) {
+  --duration: 1.5s;
+  --pin-color: #ea4597;
+}
+#gallery figure:nth-child(7n + 4) {
+  --duration: 1.1s;
+  --pin-color: #6f9ac6;
+}
+#gallery figure:nth-child(7n + 5) {
+  --duration: 1.6s;
+  --pin-color: #9452d7;
+}
+#gallery figure:nth-child(7n + 6) {
+  --duration: 1.2s;
+  --pin-color: #ff7f00;
+}
+#gallery figure:nth-child(3n) {
+  --angle: 3deg;
+}
+#gallery figure:nth-child(3n + 1) {
+  --angle: -3.3deg;
+}
+#gallery figure:nth-child(3n + 2) {
+  --angle: 2.4deg;
+}
+#gallery figure:nth-child(odd) {
+  --direction: alternate;
+}
+#gallery figure:nth-child(even) {
+  --direction: alternate-reverse;
+}
+#gallery figure {
+  --angle: 3deg;
+  --count: 5;
+  --duration: 1s;
+  --delay: calc(-0.5 * var(--duration));
+  --direction: alternate;
+  --pin-color: red;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 5px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 /1;
+  text-align: center;
+  background-color: white;
+  background-image: url("https://images.unsplash.com/photo-1603484477859-abe6a73f9366?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NTk4ODN8&ixlib=rb-4.0.3&q=100&w=800");
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+  filter: brightness(125%);
+
+  transform-origin: center 0.22rem;
+  will-change: transform;
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
+  overflow: hidden;
+  outline: 1px solid transparent;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+#gallery figure.active {
+  -webkit-animation-duration: var(--duration), 1.5s;
+          animation-duration: var(--duration), 1.5s;
+  -webkit-animation-delay: var(--delay),
+    calc(var(--delay) + var(--duration) * var(--count));
+          animation-delay: var(--delay),
+    calc(var(--delay) + var(--duration) * var(--count));
+  -webkit-animation-timing-function: ease-in-out;
+          animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: var(--count), 1;
+          animation-iteration-count: var(--count), 1;
+  -webkit-animation-direction: var(--direction), normal;
+          animation-direction: var(--direction), normal;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-name: swing, swingEnd;
+          animation-name: swing, swingEnd;
+}
+#gallery figure:after {
+  position: absolute;
+  top: 0.22rem;
+  left: 50%;
+  width: 0.7rem;
+  height: 0.7rem;
+  content: "";
+  background: var(--pin-color);
+  border-radius: 50%;
+  box-shadow: -0.1rem -0.1rem 0.3rem 0.02rem rgba(0, 0, 0, 0.7) inset;
+  filter: drop-shadow(0.25rem 0.13rem 0.15rem rgba(0, 0, 0, 0.7));
+  transform: translateZ(0);
+}
+figure figcaption {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: #888;
+  line-height: 1;
+  /*
+  background: rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(3px);
+  
+  text-stroke: 0.5px rgba(20, 20, 20, 0.5);
+	-webkit-text-stroke: 0.5px rgba(20, 20, 20, 0.5);
+  */
+  filter: invert(1);
+  mix-blend-mode: difference;
+  transform: translateZ(0);
+}
+figure h2 {
+  color: royalblue;
+  font-size: 24px;
+}
+figure p {
+  font-size: 17px;
+}
+figure small {
+  font-size: 15px;
+}
+figure svg {
+  width: 10px;
+}
+@-webkit-keyframes swing {
+  0% {
+    transform: rotate3d(0, 0, 1, calc(-1 * var(--angle)));
+  }
+  100% {
+    transform: rotate3d(0, 0, 1, var(--angle));
+  }
+}
+@keyframes swing {
+  0% {
+    transform: rotate3d(0, 0, 1, calc(-1 * var(--angle)));
+  }
+  100% {
+    transform: rotate3d(0, 0, 1, var(--angle));
+  }
+}
+@-webkit-keyframes swingEnd {
+  to {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+}
+@keyframes swingEnd {
+  to {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+}
+#info {
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+#info a {
+  font-size: 1.1rem;
+}
+@media (min-width: 800px) {
+  #gallery {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no" ontouchstart="">
+  
+<h1 style=" text-align: center;margin-top: 25px;color: #3bbdc7;">h e l l o!</h1>
+<p class="desc", style=" text-align: center;">welcome to my art <a style ="color: #e74b24;">@gallery</a>.<br> Here are several illustrations I have <a style ="color: #e74b24;">created</a>.</p>
+
+
+
+<center>
+<div class="pen-stroke"><svg fill="#e74b24" viewBox="0 0 100 4" height="4" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M 4 -1 Q 58 -1 99 2 Q 65 5 -3 4" stroke-width="0.19em"></path></svg></div>
+</center>
+
+  <main>
+    <div id="gallery">
+      <figure data-img="https://images.unsplash.com/photo-1633279156874-5f648d4efc68?ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,entropy&amp;w=780&amp;h=780" class="" style="background-image: url(&quot;https://images.unsplash.com/photo-1633279156874-5f648d4efc68?ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,entropy&amp;w=780&amp;h=780&quot;), url(&quot;https://images.unsplash.com/photo-1603484477859-abe6a73f9366?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NTk4ODN8&amp;ixlib=rb-4.0.3&amp;q=100&amp;w=800&quot;);">
+        <figcaption class="">1. Lorem Ipsum</figcaption>
+      </figure>
+      <figure class="">
+        <div>
+          <h2 class="">Note</h2>
+          <p class="">Hover Animation!</p>
+        </div>
+      </figure>
+      <figure data-img="https://images.unsplash.com/photo-1631164159408-540fe1e32537?&amp;cs=tinysrgb&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NjE5MjJ8&amp;ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=center&amp;w=780&amp;h=780" class="" style="background-image: url(&quot;https://images.unsplash.com/photo-1631164159408-540fe1e32537?&amp;cs=tinysrgb&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NjE5MjJ8&amp;ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=center&amp;w=780&amp;h=780&quot;), url(&quot;https://images.unsplash.com/photo-1603484477859-abe6a73f9366?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NTk4ODN8&amp;ixlib=rb-4.0.3&amp;q=100&amp;w=800&quot;);">
+        <figcaption class="">2. Lorem Ipsum</figcaption>
+      </figure>
+      <figure data-img="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?&amp;cs=tinysrgb&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTMzMzA4OTl8&amp;ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,top&amp;w=780&amp;h=780" class="" style="background-image: url(&quot;https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?&amp;cs=tinysrgb&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTMzMzA4OTl8&amp;ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,top&amp;w=780&amp;h=780&quot;), url(&quot;https://images.unsplash.com/photo-1603484477859-abe6a73f9366?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NTk4ODN8&amp;ixlib=rb-4.0.3&amp;q=100&amp;w=800&quot;);">
+        <figcaption class="">3. Lorem Ipsum</figcaption>
+      </figure>
+      <figure class="">
+        <div>
+          <h2 class="">Feature</h2>
+          <p class="">Crumpled Paper Effect!</p>
+        </div>
+      </figure>
+      <figure data-img="https://images.unsplash.com/photo-1563004597-7bcef0f8a842?&amp;cs=tinysrgb&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM1OTI0MjF8&amp;ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,center&amp;w=780&amp;h=780" class="" style="background-image: url(&quot;https://images.unsplash.com/photo-1563004597-7bcef0f8a842?&amp;cs=tinysrgb&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM1OTI0MjF8&amp;ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,center&amp;w=780&amp;h=780&quot;), url(&quot;https://images.unsplash.com/photo-1603484477859-abe6a73f9366?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NTk4ODN8&amp;ixlib=rb-4.0.3&amp;q=100&amp;w=800&quot;);">
+        <figcaption class="">4. Lorem Ipsum</figcaption>
+      </figure>
+      <figure data-img="https://images.unsplash.com/photo-1595527963403-e20e3fe1e6cb?&amp;cs=tinysrgb&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTMzODc2NTR8&amp;ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,entropy&amp;w=780&amp;h=780" class="" style="background-image: url(&quot;https://images.unsplash.com/photo-1595527963403-e20e3fe1e6cb?&amp;cs=tinysrgb&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTMzODc2NTR8&amp;ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,entropy&amp;w=780&amp;h=780&quot;), url(&quot;https://images.unsplash.com/photo-1603484477859-abe6a73f9366?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NTk4ODN8&amp;ixlib=rb-4.0.3&amp;q=100&amp;w=800&quot;);">
+        <figcaption>5. Lorem Ipsum</figcaption>
+      </figure>
+      <figure data-img="https://images.unsplash.com/photo-1533910534207-90f31029a78e?&amp;cs=tinysrgb&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM1OTI1MzV8&amp;ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,entropy&amp;w=780&amp;h=780" class="" style="background-image: url(&quot;https://images.unsplash.com/photo-1533910534207-90f31029a78e?&amp;cs=tinysrgb&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM1OTI1MzV8&amp;ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,entropy&amp;w=780&amp;h=780&quot;), url(&quot;https://images.unsplash.com/photo-1603484477859-abe6a73f9366?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NTk4ODN8&amp;ixlib=rb-4.0.3&amp;q=100&amp;w=800&quot;);">
+        <figcaption>6. Lorem Ipsum</figcaption>
+      </figure>
+      <figure data-img="https://images.unsplash.com/photo-1507384428463-9ad93c924971?ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,entropy&amp;w=780&amp;h=780" class="" style="background-image: url(&quot;https://images.unsplash.com/photo-1507384428463-9ad93c924971?ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,entropy&amp;w=780&amp;h=780&quot;), url(&quot;https://images.unsplash.com/photo-1603484477859-abe6a73f9366?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NTk4ODN8&amp;ixlib=rb-4.0.3&amp;q=100&amp;w=800&quot;);">
+        <figcaption>7. Lorem Ipsum</figcaption>
+      </figure>
+      <figure data-img="https://images.unsplash.com/photo-1528756514091-dee5ecaa3278?ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,entropy&amp;w=780&amp;h=780" class="" style="background-image: url(&quot;https://images.unsplash.com/photo-1528756514091-dee5ecaa3278?ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=faces,entropy&amp;w=780&amp;h=780&quot;), url(&quot;https://images.unsplash.com/photo-1603484477859-abe6a73f9366?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NTk4ODN8&amp;ixlib=rb-4.0.3&amp;q=100&amp;w=800&quot;);">
+        <figcaption class="">8. Lorem Ipsum</figcaption>
+      </figure>
+      <figure data-img="https://images.unsplash.com/photo-1568832359672-e36cf5d74f54?ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=right,top&amp;w=780&amp;h=780" class="" style="background-image: url(&quot;https://images.unsplash.com/photo-1568832359672-e36cf5d74f54?ixlib=rb-4.0.3&amp;q=100&amp;fit=crop&amp;crop=right,top&amp;w=780&amp;h=780&quot;), url(&quot;https://images.unsplash.com/photo-1603484477859-abe6a73f9366?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTM0NTk4ODN8&amp;ixlib=rb-4.0.3&amp;q=100&amp;w=800&quot;);">
+        <figcaption class="">9. Lorem Ipsum</figcaption>
+      </figure>
+      <figure class="">
+        <div>
+          <h2 class="">Related work</h2>
+          <p class=""><small class="">Scroll animation version <svg viewBox="0 0 448 512" width="100" title="arrow-right">
+                <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path>
+              </svg> <a target="_blank" href="https://codepen.io/wakana-k/pen/WNLrWMm" class="">Link</a></small></p>
+        </div>
+      </figure>
+    </div>
+  </main>
+      <script id="rendered-js">
+/*!
+Swaying photo gallery - hover event
+Created on AUGUST 29, 2023
+Copyright (c) 2023 by Wakana Y.K. (https://codepen.io/wakana-k/pen/oNJxbPw)
+*/
+/*
+Related works : 
+Portforio design @wakana-k - https://codepen.io/wakana-k/pen/BaxKKvE
+Swaying photo gallery - scroll event @wakana-k - https://codepen.io/wakana-k/pen/WNLrWMm
+*/
+"use strict";
+(function () {
+  window.onload = () => {
+    function split(str) {
+      let array = str.split(",");
+      array[0] = parseFloat(array[0]);
+      array[1] = parseFloat(array[1]);
+      return array;
+    }
+    function animStart(evt) {
+      let elem = evt.target;
+      if (elem.classList && elem.classList.contains("active") == false) {
+        elem.classList.add("active");
+        let durations = split(
+        window.getComputedStyle(elem).getPropertyValue("animation-duration"));
+
+        let delays = split(
+        window.getComputedStyle(elem).getPropertyValue("animation-delay"));
+
+
+        let time = (delays[1] + durations[1]) * 1000;
+        setTimeout(() => {
+          animEnd(elem);
+        }, time);
+      }
+    }
+    function animEnd(elem) {
+      elem.classList.remove("active");
+      elem.offsetWidth;
+    }
+    function init() {
+      const items = document.querySelectorAll("#gallery figure");
+      items.forEach((item, index) => {
+        //
+        item.addEventListener("pointerenter", animStart);
+        item.addEventListener("pointerdown", animStart);
+        item.addEventListener("pointermove", animStart);
+        //
+        let img = item.dataset.img;
+        if (img) {
+          var backgroundImage = window.
+          getComputedStyle(item).
+          getPropertyValue("background-image");
+          item.style.backgroundImage =
+          "url( " + img + " )" + "," + backgroundImage;
+        } else {
+          item.style.backgroundBlendMode = "none";
+          let e = new Event("pointerenter");
+          item.dispatchEvent(e);
+        }
+      });
+    }
+    init();
+  };
+})();
+//# sourceURL=pen.js
+    </script>
+
+  
+
+
+
+</body></html>
